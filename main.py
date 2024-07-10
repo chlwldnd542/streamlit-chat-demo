@@ -1,4 +1,5 @@
 from openai import OpenAI
+import os
 import streamlit as st
 
 instructions = """
@@ -19,10 +20,15 @@ A: 세상에 가치없는 사람은 없어요 모두 다 가치있고 소중해�
 
 # 제목이랑 api 키 설정
 st.title("고민 상담소")
-client = OpenAI(api_key=st.secrets["default"]["OPENAI_API_KEY"])
+api_key = st.secrets["default"]["OPENAI_API_KEY"]
+if api_key is None:
+    st.error("API key not found. Please set the OPENAI_API_KEY environment variable.")
+    st.stop()
+
+client = OpenAI(api_key=api_key)
 
 # 상담사 이미지 설정
-st.image("Doctor.png", width=500)
+st.image("duck.jpg", width=500)
 
 
 if "openai_model" not in st.session_state:
